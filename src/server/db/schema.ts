@@ -173,10 +173,10 @@ export const contactsRelations = relations(contacts, ({ one }) => ({
 
 export const chats = pgTable("chats", {
   id: text("id").primaryKey().notNull().default(createId()),
-  title: text("title"),
+  title: text("title").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-  path: text("path"),
-  messages: json("messages").array().$type<Message[]>(),
+  path: text("path").notNull(),
+  messages: json("messages").array().$type<Message[]>().notNull(),
 });
 
 export type Partner = typeof partners.$inferSelect;

@@ -10,7 +10,7 @@ export default function Page() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
           <p className="mb-4">
-            Welcome to the Career and Technical Education (CTE) Partner Database application! This powerful tool is designed to help your school's CTE Department efficiently manage and utilize information about business and community partners. Our user-friendly interface allows you to store, search, and filter valuable data about organizations that support your CTE programs.
+            Welcome to the Career and Technical Education (CTE) Partner Database application! This powerful tool is designed to help your school&apos;s CTE Department efficiently manage and utilize information about business and community partners. Our user-friendly interface allows you to store, search, and filter valuable data about organizations that support your CTE programs.
           </p>
         </section>
 
@@ -27,7 +27,7 @@ export default function Page() {
 
         <section className="mb-8">
           <h3 className="text-xl font-semibold mb-4">Getting Started</h3>
-          <p className="mb-4">To begin using the CTE Partner Database, you'll need to:</p>
+          <p className="mb-4">To begin using the CTE Partner Database, you&apos;ll need to:</p>
           <ol className="list-decimal pl-6 space-y-2">
             <li>Log in to the application using your provided credentials.</li>
             <li>Familiarize yourself with the main dashboard and navigation menu.</li>
@@ -40,11 +40,11 @@ export default function Page() {
         </p>
 
         <p className="mt-4">
-          We're confident that this tool will streamline your partner management process and enhance the capabilities of your CTE programs. Should you have any questions or need assistance, please don't hesitate to reach out to our support team.
+          We&apos;re confident that this tool will streamline your partner management process and enhance the capabilities of your CTE programs. Should you have any questions or need assistance, please don&apos;t hesitate to reach out to our support team.
         </p>
 
         <p className="mt-4 font-semibold">
-          Let's get started on organizing and leveraging your valuable partnerships!
+          Let&apos;s get started on organizing and leveraging your valuable partnerships!
         </p>
       </div>
     </ScrollArea>

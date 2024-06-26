@@ -1,6 +1,5 @@
 import { Sidebar as SidebarDefault } from "./_components/Sidebar";
 import { Header } from "./_components/Header";
-import { Sidebar } from "@/components/sidebar";
 
 export default function Dashboard({
   children,

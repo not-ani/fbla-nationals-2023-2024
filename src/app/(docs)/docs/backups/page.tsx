@@ -40,7 +40,7 @@ export default function Page() {
         </li>
 
         <li>
-          <strong>Schedule Regular Backups:</strong> Use your system's task scheduler (e.g., cron for Linux/macOS, Task Scheduler for Windows) to run the script at regular intervals.
+          <strong>Schedule Regular Backups:</strong> Use your system&apos;s task scheduler (e.g., cron for Linux/macOS, Task Scheduler for Windows) to run the script at regular intervals.
         </li>
       </ol>
 

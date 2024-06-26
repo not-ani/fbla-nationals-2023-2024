@@ -48,20 +48,16 @@ export function PartnerPageForm({ partner }: PageFormProps) {
   const [isUpdatePending, startUpdateTransition] = React.useTransition();
   const router = useRouter();
 
-  if (!partner) {
-    return null;
-  }
-
   const form = useForm<UpdatePartnerSchemaFull>({
     resolver: zodResolver(updatePartnerSchemaFull),
     defaultValues: {
-      id: partner.id,
-      name: partner.name!,
-      status: partner.status!,
-      orgType: partner.orgType,
-      email: partner.email,
-      availableResources: partner.availableResources!,
-      lastInteraction: partner.lastInteraction,
+      id: partner!.id,
+      name: partner!.name!,
+      status: partner!.status!,
+      orgType: partner!.orgType,
+      email: partner!.email,
+      availableResources: partner!.availableResources!,
+      lastInteraction: partner!.lastInteraction,
     },
   });
 

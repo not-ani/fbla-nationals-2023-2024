@@ -54,8 +54,6 @@ export function CreatePartnerDialog() {
       name: "",
     },
   });
-  // if the form is is not valid in a varialbe
-  const isValid = form.formState.isValid;
 
   function onSubmit(input: CreatePartnerSchema) {
     startCreateTransition(async () => {

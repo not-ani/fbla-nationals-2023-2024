@@ -6,7 +6,7 @@ import { type SidebarItemProps } from "@/types/sidebar";
 
 const Item = ({ link, name, icon }: SidebarItemProps) => {
   const pathname = usePathname();
-  let isCurrent = pathname === link;
+  const isCurrent = pathname === link;
 
   return (
     <Link

@@ -1,5 +1,5 @@
 import { type SQL } from "drizzle-orm";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -54,23 +54,10 @@ export type SidebarNavItem = {
     }
     | {
       href?: string
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       items: any[]
     }
   )
-
-const pathToContent = {
-  "/docs": (
-    <div>
-
-    </div>
-  ),
-  "/guides": (
-    <div>
-
-    </div>
-  )
-  ,
-}
 
 export type DocsConfig = {
   mainNav: MainNavItem[]

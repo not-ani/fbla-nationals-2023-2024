@@ -16,8 +16,8 @@ export const Sidebar = () => {
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {items.map((items) => (
-              <NavItem key={items.link} {...items} />
+            {items.map((items, idx) => (
+              <NavItem key={idx} {...items} />
             ))}
           </nav>
         </div>

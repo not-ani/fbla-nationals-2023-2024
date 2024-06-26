@@ -1,3 +1,4 @@
+/* ts-expect-error */
 import { CheckIcon, ChevronsUpDown } from "lucide-react";
 
 import * as React from "react";

@@ -3,7 +3,6 @@ import { notFound, redirect } from 'next/navigation'
 
 import { auth } from '@/server/auth'
 import { getChat, getMissingKeys } from '@/server/chat/server-actions'
-import { Session } from 'next-auth'
 import { AI } from '@/components/chat/actions'
 import { Chat } from '@/components/chat/chat'
 
@@ -29,14 +28,13 @@ export async function generateMetadata({
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
-  const session = (await auth()) as Session
+  const session = await auth()
   const missingKeys = await getMissingKeys()
 
   if (!session?.user) {
     redirect(`/login?next=/chat/${params.id}`)
   }
 
-  const userId = session.user.id as string
   const chat = await getChat(params.id)
 
   if (!chat) {

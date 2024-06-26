@@ -6,6 +6,7 @@ import { db } from '../db'
 import { eq } from "drizzle-orm"
 import { chats } from '../db/schema'
 import { auth } from '../auth'
+import type { Chat } from '@/types/chat'
 
 
 export async function getChats(userId?: string | null) {
@@ -58,16 +59,14 @@ export async function clearChats() {
   return redirect('/')
 }
 
-export async function getSharedChat(id: string) {
-}
 
-export async function saveChat(chat: any) {
+export async function saveChat(chat: Chat) {
   const session = await auth()
 
-  if (session && session.user && session.user.isAdmin) {
+  if (session?.user?.isAdmin) {
     await db.update(chats).set({
       messages: chat.messages,
-    })
+    }).where(eq(chats.id, chat.id))
   } else {
     return
   }

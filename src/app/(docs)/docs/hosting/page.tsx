@@ -11,7 +11,7 @@ export default function Page() {
 
       <ol className="list-decimal pl-6 space-y-4 mb-6">
         <li>
-          <strong>Supabase (Default Option):</strong> If you're using Supabase as your database provider, which is our recommended and default choice, we strongly advise referring to their official documentation for backup procedures. Supabase offers robust, built-in backup solutions tailored to their platform.
+          <strong>Supabase (Default Option):</strong> If you&apos;re using Supabase as your database provider, which is our recommended and default choice, we strongly advise referring to their official documentation for backup procedures. Supabase offers robust, built-in backup solutions tailored to their platform.
           <p className="mt-2">
             <Link href="https://supabase.com/docs/guides/platform/backups" className="text-blue-600 hover:text-blue-800 underline">
               Access Supabase Backup Documentation
@@ -23,7 +23,7 @@ export default function Page() {
         </li>
 
         <li>
-          <strong>Self-Hosted Database:</strong> If you've opted to host your own database, please continue reading this documentation for detailed information on backup strategies and implementation. We provide comprehensive guidance for setting up and managing backups in self-hosted environments.
+          <strong>Self-Hosted Database:</strong> If you&apos;ve opted to host your own database, please continue reading this documentation for detailed information on backup strategies and implementation. We provide comprehensive guidance for setting up and managing backups in self-hosted environments.
         </li>
       </ol>
 

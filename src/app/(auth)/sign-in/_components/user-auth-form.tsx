@@ -32,6 +32,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           setIsGoogleLoading(true);
           signIn("google", {
             callbackUrl: "/",
+          }).catch(() => {
+            console.error("Failed to sign in with Google");
           });
         }}
         disabled={isGoogleLoading}

@@ -1,3 +1,5 @@
+// eslint-disable @typescript-eslint/no-explicit-any
+// eslint-disable @typescript-eslint/ban-ts-comment
 import 'server-only'
 
 import {
@@ -13,7 +15,6 @@ import { openai } from '@ai-sdk/openai'
 import {
   spinner,
   BotCard,
-  BotMessage,
   SystemMessage,
 } from '@/components/llm/chat'
 
@@ -31,6 +32,7 @@ import { saveChat } from '@/server/chat/server-actions'
 import { PartnerPageSkeleton } from '@/components/skeleton/partner-page-skeletons'
 import { PartnerPage } from '../partner-page'
 import { getAllData } from '@/server/chat/getAllData'
+import { BotMessage } from './message'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'

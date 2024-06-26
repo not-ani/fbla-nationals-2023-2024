@@ -74,7 +74,7 @@ export async function PartnerPage(props: { id: string }) {
                       .map((name) => name[0])
                       .join("");
                     return (
-                      <TableRow>
+                      <TableRow key={contact.id}>
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <Avatar>
