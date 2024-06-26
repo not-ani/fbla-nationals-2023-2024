@@ -1,0 +1,28 @@
+import React from 'react'
+import { DocsSidebarNav } from './_components/sidebar'
+import { docsConfig } from './_components/docs'
+import { Header } from './_components/header'
+
+interface LayoutProps {
+  children: React.ReactNode
+}
+
+export default function Layout({ children }: LayoutProps) {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <div className="flex flex-1 overflow-hidden ">
+        <aside className="w-64 flex-shrink-0 fixed h-[calc(100vh-64px)] overflow-y-auto ">
+          <div className="px-6 py-6">
+            <DocsSidebarNav items={docsConfig.sidebarNav} />
+          </div>
+        </aside>
+        <main className="flex-1 overflow-y-auto pl-64">
+          <div className="container py-6 px-4 md:px-6">
+            {children}
+          </div>
+        </main>
+      </div>
+    </div>
+  )
+}
