@@ -61,7 +61,7 @@ export function getColumns(): ColumnDef<Partner>[] {
     {
       accessorKey: "id",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="id" />
+        <DataTableColumnHeader column={column} title="Id" />
       ),
       cell: ({ row }) => {
         return (

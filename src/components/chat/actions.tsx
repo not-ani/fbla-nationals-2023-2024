@@ -33,6 +33,8 @@ import { PartnerPageSkeleton } from '@/components/skeleton/partner-page-skeleton
 import { PartnerPage } from '../partner-page'
 import { getAllData } from '@/server/chat/getAllData'
 import { BotMessage } from './message'
+import { ListPartners } from '../list-partners'
+import { ListPartnersSkeleton } from '../skeleton/list-partners-skeleton'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -186,6 +188,59 @@ async function submitUserMessage(content: string) {
       return textNode
     },
     tools: {
+      list_partners: {
+        description: `List partners based on the given ids`,
+        parameters: z.object({
+          ids: z.array(z.string())
+        }),
+        generate: async function*({ ids }) {
+          yield (
+            <BotCard>
+              <ListPartnersSkeleton />
+            </BotCard>
+          )
+          const toolCallId = nanoid()
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'showPartner',
+                    toolCallId,
+                    args: { ids }
+                  }
+                ]
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'listStocks',
+                    toolCallId,
+                    result: ids
+                  }
+                ]
+              }
+            ]
+          })
+
+          return (
+            <BotCard>
+              <ListPartners ids={ids} />
+            </BotCard>
+          )
+
+
+        }
+      },
       showPartner: {
         description: 'Show a partner based on the given id',
         parameters: z.object({
@@ -198,9 +253,6 @@ async function submitUserMessage(content: string) {
             </BotCard>
           )
 
-
-
-          console.log(id)
           const toolCallId = nanoid()
 
           aiState.done({
@@ -239,7 +291,8 @@ async function submitUserMessage(content: string) {
               <PartnerPage id={id} />
             </BotCard>
           )
-        }
+        },
+
       },
 
     }
@@ -328,6 +381,11 @@ export const getUIStateFromAIState = (aiState: Chat) => {
                 {/* TODO: Infer types based on the tool result*/}
                 {/* @ts-expect-error */}
                 <PartnerPage id={tool.result} />
+              </BotCard>
+            ) : tool.toolName === 'list_partners' ? (
+              <BotCard>
+                {/* @ts-expect-error */}
+                <ListPartners ids={tool.result} />
               </BotCard>
             ) : null
           })

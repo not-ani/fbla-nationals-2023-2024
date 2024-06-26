@@ -1,29 +1,80 @@
-# Create T3 App
+# T3 Stack Project: Partner Management System
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Overview
 
-## What's next? How do I make an app with this?
+This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`. It's designed as a Partner Management System, allowing users to manage and track business and community partners efficiently.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Technologies Used
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+This project leverages the power of the T3 Stack, which includes:
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- [Next.js](https://nextjs.org) - React framework for building performant apps with the best developer experience
+- [NextAuth.js](https://next-auth.js.org) - Flexible authentication for Next.js applications
+- [Drizzle](https://orm.drizzle.team) - Lightweight and performant TypeScript ORM
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework for rapid UI development
+- [tRPC](https://trpc.io) - End-to-end typesafe APIs made easy
 
-## Learn More
+## Features
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- User Authentication: Secure login and registration system
+- Partner Management: Add, edit, and delete partner information
+- Partner Listing: View all partners with filtering and sorting options
+- Partner Details: Comprehensive view of individual partner information
+- User Roles: Admin and regular user roles with different permissions
+- Responsive Design: Mobile-friendly interface for on-the-go access
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Getting Started
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/your-repo-name.git
+   ```
 
-## How do I deploy this?
+2. Install dependencies:
+   ```
+   cd your-repo-name
+   npm install
+   ```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+3. Set up your environment variables:
+   Copy the `.env.example` file to `.env` and fill in the required variables.
+
+4. Set up the database:
+   ```
+   pnpm db:push
+   ```
+
+5. Run the development server:
+   ```
+   npm run dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+## Project Structure
+
+- `src/app ` - Contains all the pages of the application
+- `src/components` - Reusable React components
+- `src/server` - Server-side code, including API routes and database queries, and db schema
+- `src/styles` - Global styles and Tailwind CSS configuration
+
+## Customization
+
+This project is set up to be easily customizable. You can start by modifying the existing components and pages to fit your specific needs. As your project grows, you can add additional features and components as necessary.
+
+## Deployment
+
+This application can be easily deployed to platforms like Vercel or Netlify. Refer to their respective documentation for detailed deployment instructions.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Acknowledgments
+
+- Thanks to the creators and maintainers of the T3 Stack for providing an excellent starting point for modern web applications.
+- Shoutout to the open-source community for the amazing tools and libraries used in this project.
