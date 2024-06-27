@@ -20,7 +20,7 @@ export const getpartnersSchema = searchParamsSchema;
 export type GetPartnersSchema = z.infer<typeof getpartnersSchema>;
 
 export const createPartnerSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1),
   email: z.string().email(),
   orgType: z.enum(partners.orgType.enumValues),
   status: z.enum(partners.status.enumValues),
