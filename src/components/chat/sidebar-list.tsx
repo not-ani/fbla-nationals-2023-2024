@@ -1,19 +1,14 @@
 import { getChats } from "@/server/chat/server-actions";
-//TODO: Fix this shitshow
 import { cache } from "react";
 import { SidebarItems } from "./sidebar-items";
 
-interface SidebarListProps {
-  userId?: string;
-  children?: React.ReactNode;
-}
 
-const loadChats = cache(async (userId?: string) => {
-  return await getChats(userId);
+const loadChats = cache(async () => {
+  return await getChats();
 });
 
-export async function SidebarList({ userId }: SidebarListProps) {
-  const chats = await loadChats(userId);
+export async function SidebarList() {
+  const chats = await loadChats();
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">

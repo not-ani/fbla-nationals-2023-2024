@@ -9,11 +9,7 @@ import { auth } from '../auth'
 import type { Chat } from '@/types/chat'
 
 
-export async function getChats(userId?: string | null) {
-  if (!userId) {
-    return []
-  }
-
+export async function getChats() {
   try {
     return await db.select().from(chats)
   } catch (error) {
@@ -64,9 +60,24 @@ export async function saveChat(chat: Chat) {
   const session = await auth()
 
   if (session?.user?.isAdmin) {
-    await db.update(chats).set({
-      messages: chat.messages,
-    }).where(eq(chats.id, chat.id))
+    const result = await db
+      .insert(chats)
+      .values({
+        id: chat.id,
+        title: chat.title,
+        path: chat.path,
+        messages: chat.messages,
+      })
+      .onConflictDoUpdate({
+        target: chats.id,
+        set: {
+          title: chat.title,
+          path: chat.path,
+          messages: chat.messages,
+        },
+      });
+
+    console.log('Chat saved successfully:', result);
   } else {
     return
   }

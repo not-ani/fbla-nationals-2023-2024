@@ -2,6 +2,7 @@ import React from 'react'
 import { DocsSidebarNav } from './_components/sidebar'
 import { docsConfig } from './_components/docs'
 import { Header } from './_components/header'
+import ChatButton from '@/components/chat-button'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -23,6 +24,7 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </main>
       </div>
+      <ChatButton />
     </div>
   )
 }

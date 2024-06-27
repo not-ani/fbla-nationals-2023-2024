@@ -41,7 +41,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
     redirect('/')
   }
 
-  if (session?.user?.isAdmin) {
+  if (!session?.user?.isAdmin) {
     notFound()
   }
 

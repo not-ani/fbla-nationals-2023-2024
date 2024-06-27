@@ -1,5 +1,6 @@
 import { Sidebar as SidebarDefault } from "./_components/Sidebar";
 import { Header } from "./_components/Header";
+import ChatButton from "@/components/chat-button";
 
 export default function Dashboard({
   children,
@@ -17,6 +18,7 @@ export default function Dashboard({
           {children}
         </main>
       </div>
+      <ChatButton />
       {modal}
     </div>
   );
