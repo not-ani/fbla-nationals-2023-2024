@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import "server-only";
 
 import { unstable_noStore as noStore } from "next/cache";
@@ -53,34 +55,34 @@ export async function getPartners(input: GetPartnersSchema) {
     const expressions: (SQL<unknown> | undefined)[] = [
       name
         ? filterColumn({
-            column: partners.name,
-            value: name,
-          })
+          column: partners.name,
+          value: name,
+        })
         : undefined,
       id ? filterColumn({ column: partners.id, value: id }) : undefined,
       // Filter partners by status
       !!status
         ? filterColumn({
-            column: partners.status,
-            value: status,
-            isSelectable: true,
-          })
+          column: partners.status,
+          value: status,
+          isSelectable: true,
+        })
         : undefined,
       // Filter partners by priority
       !!orgType
         ? filterColumn({
-            column: partners.orgType,
-            value: orgType,
-            isSelectable: true,
-          })
+          column: partners.orgType,
+          value: orgType,
+          isSelectable: true,
+        })
         : undefined,
 
       // Filter by createdAt
       fromDay && toDay
         ? and(
-            gte(partners.lastInteraction, fromDay),
-            lte(partners.lastInteraction, toDay),
-          )
+          gte(partners.lastInteraction, fromDay),
+          lte(partners.lastInteraction, toDay),
+        )
         : undefined,
     ];
     const where: DrizzleWhere<Partner> =

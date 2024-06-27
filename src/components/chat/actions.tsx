@@ -27,7 +27,7 @@ import {
 } from '@/lib/chat'
 import { SpinnerMessage, UserMessage } from '@/components/llm/chat/message'
 import { auth } from '@/server/auth'
-import { Chat, Message } from '@/types/chat'
+import type { Chat, Message } from '@/types/chat'
 import { saveChat } from '@/server/chat/server-actions'
 import { PartnerPageSkeleton } from '@/components/skeleton/partner-page-skeletons'
 import { PartnerPage } from '../partner-page'
@@ -346,7 +346,7 @@ export const AI = createAI<AIState, UIState>({
       const { chatId, messages } = state
 
       const createdAt = new Date()
-      const userId = session.user.id as string
+      const userId = session.user.id
       const path = `/chat/${chatId}`
 
       const firstMessageContent = messages?.[0]?.content as string
@@ -379,12 +379,12 @@ export const getUIStateFromAIState = (aiState: Chat) => {
             return tool.toolName === 'showPartner' ? (
               <BotCard>
                 {/* TODO: Infer types based on the tool result*/}
-                {/* @ts-expect-error */}
+                {/* @ts-expect-error - haven't added type infer */}
                 <PartnerPage id={tool.result} />
               </BotCard>
             ) : tool.toolName === 'list_partners' ? (
               <BotCard>
-                {/* @ts-expect-error */}
+                {/* @ts-expect-error - haven't added type infer */}
                 <ListPartners ids={tool.result} />
               </BotCard>
             ) : null

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { toast } from 'sonner'
 
-import { ServerActionResult, type Chat } from '@/types/chat'
+import type { ServerActionResult, Chat } from '@/types/chat'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +16,7 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import { IconShare, IconSpinner, IconTrash } from '@/components/ui/icons'
+import { IconSpinner, IconTrash } from '@/components/ui/icons'
 import {
   Tooltip,
   TooltipContent,
@@ -34,25 +34,11 @@ export function SidebarActions({
 }: SidebarActionsProps) {
   const router = useRouter()
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
-  const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
   const [isRemovePending, startRemoveTransition] = React.useTransition()
 
   return (
     <>
       <div className="">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              className="size-7 p-0 hover:bg-background"
-              onClick={() => setShareDialogOpen(true)}
-            >
-              <IconShare />
-              <span className="sr-only">Share</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Share chat</TooltipContent>
-        </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -86,7 +72,6 @@ export function SidebarActions({
               disabled={isRemovePending}
               onClick={event => {
                 event.preventDefault()
-                // @ts-ignore
                 startRemoveTransition(async () => {
                   const result = await removeChat({
                     id: chat.id,
@@ -100,7 +85,7 @@ export function SidebarActions({
 
                   setDeleteDialogOpen(false)
                   router.refresh()
-                  router.push('/')
+                  router.push('/chat/new')
                   toast.success('Chat deleted')
                 })
               }}

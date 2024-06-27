@@ -1,4 +1,5 @@
-// @ts-nocheck
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 // eslint-disable @typescript-eslint/no-explicit-any
 import { OpenAIStream } from "ai";
 import { type ToolDefinition } from "@/lib/tool-definition";

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import * as React from 'react'
 
 import { useActions, useUIState } from 'ai/rsc'

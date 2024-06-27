@@ -1,4 +1,5 @@
-/* ts-expect-error */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { CheckIcon, ChevronsUpDown } from "lucide-react";
 
 import * as React from "react";
@@ -53,7 +54,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
            *
            * @param {E164Number | undefined} value - The entered value
            */
-          onChange={(value) => onChange?.(value || "")}
+          onChange={(value) => onChange?.(value ?? "")}
           {...props}
         />
       );

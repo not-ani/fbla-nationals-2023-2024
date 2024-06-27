@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { cn } from '@/lib/utils'
@@ -8,10 +9,10 @@ import { useUIState, useAIState } from 'ai/rsc'
 import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
-import { Message } from '@/types/chat'
+import type { Message } from '@/types/chat'
 import { EmptyScreen } from './empty-screen'
 import { ChatPanel } from './chat-panel'
-import { Session } from 'next-auth'
+import type { Session } from 'next-auth'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]

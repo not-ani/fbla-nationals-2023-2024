@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { MemoizedReactMarkdown } from './markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
-import { StreamableValue } from 'ai/rsc'
+import { type StreamableValue } from 'ai/rsc'
 import { useStreamableText } from '@/hooks/use-streamable-text'
 import { spinner } from '../llm/spinner'
 import { CodeBlock } from './code-block'
@@ -47,7 +47,7 @@ export function BotMessage({
             p({ children }) {
               return <p className="mb-2 last:mb-0">{children}</p>
             },
-            code({ node, inline, className, children, ...props }) {
+            code({ inline, className, children, ...props }) {
               if (children?.length) {
                 if (children[0] == '▍') {
                   return (

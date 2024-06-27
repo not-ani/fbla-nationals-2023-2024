@@ -38,7 +38,7 @@ export async function removeChat({ id, path }: { id: string; path: string }) {
 
 
   await db.delete(chats).where(eq(chats.id, id))
-  revalidatePath('/')
+  revalidatePath('/chat')
   return revalidatePath(path)
 }
 
@@ -51,8 +51,8 @@ export async function clearChats() {
     }
   }
 
-  revalidatePath('/')
-  return redirect('/')
+  revalidatePath('/chat')
+  return redirect('/chat')
 }
 
 
