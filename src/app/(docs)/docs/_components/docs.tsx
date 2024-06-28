@@ -1,4 +1,4 @@
-import type { DocsConfig } from "@/types"
+import type { DocsConfig } from "@/types";
 
 export const docsConfig: DocsConfig = {
   mainNav: [
@@ -18,7 +18,6 @@ export const docsConfig: DocsConfig = {
         {
           title: "Introduction",
           href: "/docs",
-
         },
       ],
     },
@@ -29,7 +28,7 @@ export const docsConfig: DocsConfig = {
         {
           title: "Table Overview",
           href: "/docs/table",
-          disabled: true
+          disabled: true,
         },
         {
           title: "Creating & Editing Partners",
@@ -59,7 +58,7 @@ export const docsConfig: DocsConfig = {
       items: [
         {
           title: "Getting Started",
-          href: "/docs/hosting"
+          href: "/docs/hosting",
         },
         {
           title: "Self Hosted Backups",
@@ -74,7 +73,7 @@ export const docsConfig: DocsConfig = {
           title: "Frequency Asked Questions",
           href: "/docs/faq",
         },
-      ]
-    }
+      ],
+    },
   ],
-}
+};

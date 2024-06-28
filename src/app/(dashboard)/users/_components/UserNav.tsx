@@ -1,28 +1,30 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils"
-import { Shield, ShieldOff } from "lucide-react"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { cn } from "@/lib/utils";
+import { Shield, ShieldOff } from "lucide-react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const examples = [
   {
     name: "Admin",
     href: "/users/admin",
-    icon: <Shield />
+    icon: <Shield />,
   },
   {
     name: "Users",
     href: "/users/normal",
-    icon: <ShieldOff />
-  }
-]
+    icon: <ShieldOff />,
+  },
+];
 
-
-export function UsersNav({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  const pathname = usePathname()
+export function UsersNav({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  const pathname = usePathname();
 
   return (
     <div className="relative">
@@ -37,7 +39,7 @@ export function UsersNav({ className, ...props }: React.HTMLAttributes<HTMLDivEl
                 pathname?.startsWith(example.href) ||
                   (index === 0 && pathname === "/")
                   ? "bg-muted font-medium text-primary"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground",
               )}
             >
               {example.name}
@@ -47,5 +49,5 @@ export function UsersNav({ className, ...props }: React.HTMLAttributes<HTMLDivEl
         <ScrollBar orientation="horizontal" className="invisible" />
       </ScrollArea>
     </div>
-  )
+  );
 }

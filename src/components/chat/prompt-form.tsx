@@ -1,70 +1,70 @@
-'use client'
+"use client";
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/dot-notation, @typescript-eslint/no-unsafe-return */
 
-import * as React from 'react'
-import Textarea from 'react-textarea-autosize'
+import * as React from "react";
+import Textarea from "react-textarea-autosize";
 
-import { useActions, useUIState } from 'ai/rsc'
+import { useActions, useUIState } from "ai/rsc";
 
-import { Button } from '@/components/ui/button'
-import { IconArrowElbow, IconPlus } from '@/components/ui/icons'
+import { Button } from "@/components/ui/button";
+import { IconArrowElbow, IconPlus } from "@/components/ui/icons";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger
-} from '@/components/ui/tooltip'
-import { nanoid } from 'nanoid'
-import { useRouter } from 'next/navigation'
-import { UserMessage } from '../llm/message'
-import { type AI } from './actions'
-import { useEnterSubmit } from '@/hooks/use-enter-submit'
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { nanoid } from "nanoid";
+import { useRouter } from "next/navigation";
+import { UserMessage } from "../llm/message";
+import { type AI } from "./actions";
+import { useEnterSubmit } from "@/hooks/use-enter-submit";
 
 export function PromptForm({
   input,
-  setInput
+  setInput,
 }: {
-  input: string
-  setInput: (value: string) => void
+  input: string;
+  setInput: (value: string) => void;
 }) {
-  const router = useRouter()
-  const { formRef, onKeyDown } = useEnterSubmit()
-  const inputRef = React.useRef<HTMLTextAreaElement>(null)
-  const { submitUserMessage } = useActions()
-  const [_, setMessages] = useUIState<typeof AI>()
+  const router = useRouter();
+  const { formRef, onKeyDown } = useEnterSubmit();
+  const inputRef = React.useRef<HTMLTextAreaElement>(null);
+  const { submitUserMessage } = useActions();
+  const [_, setMessages] = useUIState<typeof AI>();
 
   React.useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus()
+      inputRef.current.focus();
     }
-  }, [])
+  }, []);
 
   return (
     <form
       ref={formRef}
       onSubmit={async (e: any) => {
-        e.preventDefault()
+        e.preventDefault();
 
         // Blur focus on mobile
         if (window.innerWidth < 600) {
-          e.target['message']?.blur()
+          e.target["message"]?.blur();
         }
 
-        const value = input.trim()
-        setInput('')
-        if (!value) return
+        const value = input.trim();
+        setInput("");
+        if (!value) return;
 
         // Optimistically add user message UI
         setMessages((currentMessages: any) => [
           ...currentMessages,
           {
             id: nanoid(),
-            display: <UserMessage>{value}</UserMessage>
-          }
-        ])
+            display: <UserMessage>{value}</UserMessage>,
+          },
+        ]);
 
         // Submit and get response message
-        const responseMessage = await submitUserMessage(value)
-        setMessages(currentMessages => [...currentMessages, responseMessage])
+        const responseMessage = await submitUserMessage(value);
+        setMessages((currentMessages) => [...currentMessages, responseMessage]);
       }}
     >
       <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
@@ -75,7 +75,7 @@ export function PromptForm({
               size="icon"
               className="absolute left-0 top-[14px] size-8 rounded-full bg-background p-0 sm:left-4"
               onClick={() => {
-                router.push('/new')
+                router.push("/new");
               }}
             >
               <IconPlus />
@@ -97,12 +97,12 @@ export function PromptForm({
           name="message"
           rows={1}
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
         />
         <div className="absolute right-0 top-[13px] sm:right-4">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button type="submit" size="icon" disabled={input === ''}>
+              <Button type="submit" size="icon" disabled={input === ""}>
                 <IconArrowElbow />
                 <span className="sr-only">Send message</span>
               </Button>
@@ -112,5 +112,5 @@ export function PromptForm({
         </div>
       </div>
     </form>
-  )
+  );
 }

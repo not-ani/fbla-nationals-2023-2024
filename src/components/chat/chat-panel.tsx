@@ -1,38 +1,38 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import * as React from 'react'
+import * as React from "react";
 
-import { useActions, useUIState } from 'ai/rsc'
-import type { AI } from '@/components/chat/actions'
-import { nanoid } from 'nanoid'
-import { PromptForm } from './prompt-form'
-import { ButtonScrollToBottom } from './button-scroll-to-bottom'
-import { UserMessage } from '../llm/chat/message'
+import { useActions, useUIState } from "ai/rsc";
+import type { AI } from "@/components/chat/actions";
+import { nanoid } from "nanoid";
+import { PromptForm } from "./prompt-form";
+import { ButtonScrollToBottom } from "./button-scroll-to-bottom";
+import { UserMessage } from "../llm/chat/message";
 
 export interface ChatPanelProps {
-  id?: string
-  title?: string
-  input: string
-  setInput: (value: string) => void
-  isAtBottom: boolean
-  scrollToBottom: () => void
+  id?: string;
+  title?: string;
+  input: string;
+  setInput: (value: string) => void;
+  isAtBottom: boolean;
+  scrollToBottom: () => void;
 }
 
 export function ChatPanel({
   input,
   setInput,
   isAtBottom,
-  scrollToBottom
+  scrollToBottom,
 }: ChatPanelProps) {
-  const [messages, setMessages] = useUIState<typeof AI>()
-  const { submitUserMessage } = useActions()
+  const [messages, setMessages] = useUIState<typeof AI>();
+  const { submitUserMessage } = useActions();
 
   const exampleMessages = [
     {
-      heading: 'Help me plan a banquet',
+      heading: "Help me plan a banquet",
       subheading: `Good food!`,
-      message: `I need to plan a banquet for my students to celebrate the end of the year, which partners should I contact? List only relevent partners.`
-    }
-  ]
+      message: `I need to plan a banquet for my students to celebrate the end of the year, which partners should I contact? List only relevent partners.`,
+    },
+  ];
 
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
@@ -47,25 +47,26 @@ export function ChatPanel({
             exampleMessages.map((example, index) => (
               <div
                 key={example.heading}
-                className={`cursor-pointer rounded-lg border bg-white p-4 hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 ${index > 1 && 'hidden md:block'
-                  }`}
+                className={`cursor-pointer rounded-lg border bg-white p-4 hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 ${
+                  index > 1 && "hidden md:block"
+                }`}
                 onClick={async () => {
-                  setMessages(currentMessages => [
+                  setMessages((currentMessages) => [
                     ...currentMessages,
                     {
                       id: nanoid(),
-                      display: <UserMessage>{example.message}</UserMessage>
-                    }
-                  ])
+                      display: <UserMessage>{example.message}</UserMessage>,
+                    },
+                  ]);
 
                   const responseMessage = await submitUserMessage(
-                    example.message
-                  )
+                    example.message,
+                  );
 
-                  setMessages(currentMessages => [
+                  setMessages((currentMessages) => [
                     ...currentMessages,
-                    responseMessage
-                  ])
+                    responseMessage,
+                  ]);
                 }}
               >
                 <div className="text-sm font-semibold">{example.heading}</div>
@@ -77,5 +78,5 @@ export function ChatPanel({
         </div>
       </div>
     </div>
-  )
+  );
 }

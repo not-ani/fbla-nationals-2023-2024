@@ -1,62 +1,62 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-'use client'
+"use client";
 
-import { cn } from '@/lib/utils'
-import { ChatList } from '@/components/chat/chat-list'
-import { useLocalStorage } from '@/hooks/use-local-storage'
-import { useEffect, useState } from 'react'
-import { useUIState, useAIState } from 'ai/rsc'
-import { usePathname, useRouter } from 'next/navigation'
-import { useScrollAnchor } from '@/hooks/use-scroll-anchor'
-import { toast } from 'sonner'
-import type { Message } from '@/types/chat'
-import { EmptyScreen } from './empty-screen'
-import { ChatPanel } from './chat-panel'
-import type { Session } from 'next-auth'
+import { cn } from "@/lib/utils";
+import { ChatList } from "@/components/chat/chat-list";
+import { useLocalStorage } from "@/hooks/use-local-storage";
+import { useEffect, useState } from "react";
+import { useUIState, useAIState } from "ai/rsc";
+import { usePathname, useRouter } from "next/navigation";
+import { useScrollAnchor } from "@/hooks/use-scroll-anchor";
+import { toast } from "sonner";
+import type { Message } from "@/types/chat";
+import { EmptyScreen } from "./empty-screen";
+import { ChatPanel } from "./chat-panel";
+import type { Session } from "next-auth";
 
-export interface ChatProps extends React.ComponentProps<'div'> {
-  initialMessages?: Message[]
-  id?: string
-  session?: Session | null
-  missingKeys: string[]
+export interface ChatProps extends React.ComponentProps<"div"> {
+  initialMessages?: Message[];
+  id?: string;
+  session?: Session | null;
+  missingKeys: string[];
 }
 
 export function Chat({ id, className, session, missingKeys }: ChatProps) {
-  const router = useRouter()
-  const path = usePathname()
-  const [input, setInput] = useState('')
-  const [messages] = useUIState()
-  const [aiState] = useAIState()
+  const router = useRouter();
+  const path = usePathname();
+  const [input, setInput] = useState("");
+  const [messages] = useUIState();
+  const [aiState] = useAIState();
 
-  const [_, setNewChatId] = useLocalStorage('newChatId', id)
+  const [_, setNewChatId] = useLocalStorage("newChatId", id);
 
   useEffect(() => {
     if (session?.user) {
-      if (!path.includes('chat') && messages.length === 1) {
-        window.history.replaceState({}, '', `/chat/${id}`)
+      if (!path.includes("chat") && messages.length === 1) {
+        window.history.replaceState({}, "", `/chat/${id}`);
       }
     }
-  }, [id, path, session?.user, messages])
+  }, [id, path, session?.user, messages]);
 
   useEffect(() => {
-    const messagesLength = aiState.messages?.length
+    const messagesLength = aiState.messages?.length;
     if (messagesLength === 2) {
-      router.refresh()
+      router.refresh();
     }
-  }, [aiState.messages, router])
+  }, [aiState.messages, router]);
 
   useEffect(() => {
-    setNewChatId(id)
-  })
+    setNewChatId(id);
+  });
 
   useEffect(() => {
-    missingKeys.map(key => {
-      toast.error(`Missing ${key} environment variable!`)
-    })
-  }, [missingKeys])
+    missingKeys.map((key) => {
+      toast.error(`Missing ${key} environment variable!`);
+    });
+  }, [missingKeys]);
 
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
-    useScrollAnchor()
+    useScrollAnchor();
 
   return (
     <div
@@ -64,7 +64,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
       ref={scrollRef}
     >
       <div
-        className={cn('pb-[200px] pt-4 md:pt-10', className)}
+        className={cn("pb-[200px] pt-4 md:pt-10", className)}
         ref={messagesRef}
       >
         {messages.length ? (
@@ -72,7 +72,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         ) : (
           <EmptyScreen />
         )}
-        <div className="w-full h-px" ref={visibilityRef} />
+        <div className="h-px w-full" ref={visibilityRef} />
       </div>
       <ChatPanel
         id={id}
@@ -82,5 +82,5 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         scrollToBottom={scrollToBottom}
       />
     </div>
-  )
+  );
 }

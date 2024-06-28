@@ -1,17 +1,20 @@
-import "server-only"
-import React from 'react'
-import { CardHeader, CardTitle, CardContent } from './ui/card';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from './ui/table';
-import { db } from '@/server/db';
+import "server-only";
+import React from "react";
+import { CardHeader, CardTitle, CardContent } from "./ui/card";
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from "./ui/table";
+import { db } from "@/server/db";
 
-export const ListPartners = async ({
-  ids
-}: {
-  ids: string[];
-}) => {
+export const ListPartners = async ({ ids }: { ids: string[] }) => {
   const data = await db.query.partners.findMany({
-    where: (partners, { inArray }) => inArray(partners.id, ids)
-  })
+    where: (partners, { inArray }) => inArray(partners.id, ids),
+  });
   return (
     <div className="col-span-1 md:col-span-2 lg:col-span-2">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -32,10 +35,7 @@ export const ListPartners = async ({
           <TableBody>
             {data.length === 0 && (
               <TableRow>
-                <TableCell
-                  colSpan={5}
-                  className="text-center text-gray-500"
-                >
+                <TableCell colSpan={5} className="text-center text-gray-500">
                   No Partners With Those IDs
                 </TableCell>
               </TableRow>
@@ -61,5 +61,5 @@ export const ListPartners = async ({
         </Table>
       </CardContent>
     </div>
-  )
-}
+  );
+};

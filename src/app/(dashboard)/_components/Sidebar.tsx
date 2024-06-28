@@ -21,7 +21,6 @@ export const Sidebar = () => {
             ))}
           </nav>
         </div>
-
       </div>
     </div>
   );

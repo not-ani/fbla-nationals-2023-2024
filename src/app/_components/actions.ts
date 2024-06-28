@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import { z } from "zod";
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 import { db } from "@/server/db";
@@ -37,4 +37,3 @@ export async function updateUser(input: UpdateUserSchema) {
     };
   }
 }
-

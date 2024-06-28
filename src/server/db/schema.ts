@@ -207,4 +207,3 @@ export const createContactSchema = z.object({
   partnerId: z.string().max(191),
   notes: z.string().default(""),
 });
-

@@ -1,18 +1,18 @@
-import { Separator } from '@/components/ui/separator'
-import Link from 'next/link'
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import type { Session } from 'next-auth'
-import type { UIState } from './actions'
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import type { Session } from "next-auth";
+import type { UIState } from "./actions";
 
 export interface ChatList {
-  messages: UIState
-  session?: Session | null
-  isShared: boolean
+  messages: UIState;
+  session?: Session | null;
+  isShared: boolean;
 }
 
 export function ChatList({ messages, session, isShared }: ChatList) {
   if (!messages.length) {
-    return null
+    return null;
   }
 
   return (
@@ -20,19 +20,19 @@ export function ChatList({ messages, session, isShared }: ChatList) {
       {!isShared && !session ? (
         <>
           <div className="group relative mb-4 flex items-start md:-ml-12">
-            <div className="bg-background flex size-[25px] shrink-0 select-none items-center justify-center rounded-md border shadow-sm">
+            <div className="flex size-[25px] shrink-0 select-none items-center justify-center rounded-md border bg-background shadow-sm">
               <ExclamationTriangleIcon />
             </div>
             <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
-              <p className="text-muted-foreground leading-normal">
-                Please{' '}
+              <p className="leading-normal text-muted-foreground">
+                Please{" "}
                 <Link href="/login" className="underline">
                   log in
-                </Link>{' '}
-                or{' '}
+                </Link>{" "}
+                or{" "}
                 <Link href="/signup" className="underline">
                   sign up
-                </Link>{' '}
+                </Link>{" "}
                 to save and revisit your chat history!
               </p>
             </div>
@@ -48,5 +48,5 @@ export function ChatList({ messages, session, isShared }: ChatList) {
         </div>
       ))}
     </div>
-  )
+  );
 }

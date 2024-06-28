@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -18,14 +18,12 @@ interface FAQSectionProps {
 const FAQSection: React.FC<FAQSectionProps> = ({ faqs }) => {
   return (
     <div className="">
-      <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+      <h2 className="mb-6 text-2xl font-bold">Frequently Asked Questions</h2>
       <Accordion type="single" collapsible className="w-full">
         {faqs.map((faq, index) => (
           <AccordionItem key={index} value={`item-${index + 1}`}>
             <AccordionTrigger>{faq.question}</AccordionTrigger>
-            <AccordionContent>
-              {faq.answer}
-            </AccordionContent>
+            <AccordionContent>{faq.answer}</AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
@@ -35,8 +33,6 @@ const FAQSection: React.FC<FAQSectionProps> = ({ faqs }) => {
 
 // Example usage:
 export default function FAQPage() {
-
-
   const faqData = [
     {
       question: "How is the data stored?",
@@ -60,18 +56,16 @@ export default function FAQPage() {
     },
     {
       question: "What about database backups?",
-      answer:
-        `
+      answer: `
 There are 2 ways our databases are backed up.
 Our database backup strategy encompasses two approaches depending on the environment. For local development, we employ a dynamic backup system utilizing a custom Python script, which can be configured as detailed in our documentation's backup section. In the production environment, we leverage Supabase as our database solution, taking advantage of their robust backup capabilities outlined in their comprehensive documentation. This dual strategy ensures data integrity and security across both development and production environments, providing a seamless experience for our users and developers alike
 
 `,
-    }
+    },
   ];
   return (
     <div>
       <FAQSection faqs={faqData} />
     </div>
   );
-};
-
+}

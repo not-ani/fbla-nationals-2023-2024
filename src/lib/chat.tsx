@@ -29,7 +29,7 @@ export function runOpenAICompletion<
   type FunctionNames =
     T["functions"] extends Array<any> ? T["functions"][number]["name"] : never;
 
-  let onTextContent: (text: string, isFinal: boolean) => void = () => { };
+  let onTextContent: (text: string, isFinal: boolean) => void = () => {};
 
   const onFunctionCall: Record<string, (args: Record<string, any>) => void> =
     {};
@@ -112,6 +112,6 @@ export function getStockPrice(name: string) {
 }
 
 export const nanoid = customAlphabet(
-  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-  7
-) // 7-character random string
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+  7,
+); // 7-character random string

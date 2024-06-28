@@ -18,7 +18,7 @@ function generateMenuItems(): SidebarItemProps[] {
     {
       link: "/docs",
       name: "Docs",
-      icon: <BookIcon className="h-4 w-4" />
+      icon: <BookIcon className="h-4 w-4" />,
     },
     {
       link: "/docs/faq",

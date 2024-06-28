@@ -58,9 +58,7 @@ export async function UserMenu({ onlySignOut }: { onlySignOut?: boolean }) {
 
             <DropdownMenuGroup>
               <Link href="/account">
-                <DropdownMenuItem>
-                  Account
-                </DropdownMenuItem>
+                <DropdownMenuItem>Account</DropdownMenuItem>
               </Link>
 
               <Link href="/docs">

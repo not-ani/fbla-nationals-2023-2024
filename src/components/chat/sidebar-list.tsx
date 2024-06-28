@@ -2,7 +2,6 @@ import { getChats } from "@/server/chat/server-actions";
 import { cache } from "react";
 import { SidebarItems } from "./sidebar-items";
 
-
 const loadChats = cache(async () => {
   return await getChats();
 });
@@ -23,8 +22,7 @@ export async function SidebarList() {
           </div>
         )}
       </div>
-      <div className="flex items-center justify-between p-4">
-      </div>
+      <div className="flex items-center justify-between p-4"></div>
     </div>
   );
 }

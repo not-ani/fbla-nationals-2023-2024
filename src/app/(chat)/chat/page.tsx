@@ -7,10 +7,12 @@ import React from "react";
 
 export default async function Page() {
   const id = nanoid();
-  const missingKeys = await getMissingKeys()
-  const session = await auth()
+  const missingKeys = await getMissingKeys();
+  const session = await auth();
 
-  return <AI>
-    <Chat id={id} session={session} missingKeys={missingKeys} />
-  </AI>;
+  return (
+    <AI>
+      <Chat id={id} session={session} missingKeys={missingKeys} />
+    </AI>
+  );
 }

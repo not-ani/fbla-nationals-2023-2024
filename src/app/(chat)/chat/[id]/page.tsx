@@ -1,48 +1,48 @@
-import { type Metadata } from 'next'
-import { notFound, redirect } from 'next/navigation'
+import { type Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
 
-import { auth } from '@/server/auth'
-import { getChat, getMissingKeys } from '@/server/chat/server-actions'
-import { AI } from '@/components/chat/actions'
-import { Chat } from '@/components/chat/chat'
+import { auth } from "@/server/auth";
+import { getChat, getMissingKeys } from "@/server/chat/server-actions";
+import { AI } from "@/components/chat/actions";
+import { Chat } from "@/components/chat/chat";
 
 export interface ChatPageProps {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: ChatPageProps): Promise<Metadata> {
-  const session = await auth()
+  const session = await auth();
 
   if (!session?.user) {
     return {};
   }
 
-  const chat = await getChat(params.id)
+  const chat = await getChat(params.id);
   return {
-    title: chat?.title?.toString().slice(0, 50) ?? 'Chat'
-  }
+    title: chat?.title?.toString().slice(0, 50) ?? "Chat",
+  };
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
-  const session = await auth()
-  const missingKeys = await getMissingKeys()
+  const session = await auth();
+  const missingKeys = await getMissingKeys();
 
   if (!session?.user) {
-    redirect(`/login?next=/chat/${params.id}`)
+    redirect(`/login?next=/chat/${params.id}`);
   }
 
-  const chat = await getChat(params.id)
+  const chat = await getChat(params.id);
 
   if (!chat) {
-    redirect('/')
+    redirect("/");
   }
 
   if (!session?.user?.isAdmin) {
-    notFound()
+    notFound();
   }
 
   return (
@@ -54,5 +54,5 @@ export default async function ChatPage({ params }: ChatPageProps) {
         missingKeys={missingKeys}
       />
     </AI>
-  )
+  );
 }
