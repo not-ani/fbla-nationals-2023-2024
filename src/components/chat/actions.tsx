@@ -31,6 +31,10 @@ import { getAllData } from "@/server/chat/getAllData";
 import { BotMessage } from "./message";
 import { ListPartners } from "../list-partners";
 import { ListPartnersSkeleton } from "../skeleton/list-partners-skeleton";
+import ContactCard from "../contact-card";
+import { ContactCardSkeleton } from "../skeleton/contact-card-skeleton";
+import { ListContactSkeleton, ListContactSkeletonColumn } from "../skeleton/list-contact-skeleton";
+import { ListContacts } from "../list-contacts";
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   "use server";
@@ -85,9 +89,8 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
         {
           id: nanoid(),
           role: "system",
-          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
-            amount * price
-          }]`,
+          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${amount * price
+            }]`,
         },
       ],
     });
@@ -139,12 +142,12 @@ async function submitUserMessage(content: string) {
     If the user asks for something and multiple partners fit that description, call \`list_partners\` to show a list of partners.
     If the user asks to create a partner, call \`create_partner\` to show the form to create a partner.
     If the user asks to update a partner, call \`show_partner\` to show the form to update a partner.
-    If the user asks to delete a partner, call \`show_partner\` to show the form to delete a partner.
+    If the user asks to delete a partner, call \`delete_partner\` to show the form to delete a partner.
 
     If the user asks to see a contact, call \`show_contact\` to show the contact.
     If the user asks to create a contact, call \`create_contact\` to show the form to create a contact.
-    If the user asks to update a contact, call \`show_contact\` to show the form to update a contact.
-    If the user asks to delete a contact, call \`show_contact\` to show the form to delete a contact.
+    If the user asks to update a contact, call \`update_contact\` to show the form to update a contact.
+    If the user asks to delete a contact, call \`delete_contact\` to show the form to delete a contact.
     If the user asks to see a list of contacts, call \`list_contacts\` to show the list of contacts.
 
     If the user wants to complete an impossible task, respond that you are a not equiped to do so, one of the reasons being security.
@@ -184,12 +187,115 @@ async function submitUserMessage(content: string) {
       return textNode;
     },
     tools: {
+      list_contacts: {
+        description: `Show a contact based on the given id`,
+        parameters: z.object({
+          ids: z.array(z.string()),
+        }),
+        generate: async function*({ ids }) {
+          yield (
+            <BotCard>
+              <ListContactSkeleton />
+            </BotCard>
+          );
+          const toolCallId = nanoid();
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: "assistant",
+                content: [
+                  {
+                    type: "tool-call",
+                    toolName: "list_contacts",
+                    toolCallId,
+                    args: { ids },
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: "tool",
+                content: [
+                  {
+                    type: "tool-result",
+                    toolName: "list_contacts",
+                    toolCallId,
+                    result: ids,
+                  },
+                ],
+              },
+            ],
+          });
+
+          return (
+            <BotCard>
+              <ListContacts ids={ids} />
+            </BotCard>
+          );
+        },
+      },
+      show_contact: {
+        description: `Show a contact based on the given id`,
+        parameters: z.object({
+          id: z.string(),
+
+        }),
+        generate: async function*({ id }) {
+          yield (
+            <BotCard>
+              <ContactCardSkeleton />
+            </BotCard>
+          );
+          const toolCallId = nanoid();
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: "assistant",
+                content: [
+                  {
+                    type: "tool-call",
+                    toolName: "show_contact",
+                    toolCallId,
+                    args: { id },
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: "tool",
+                content: [
+                  {
+                    type: "tool-result",
+                    toolName: "show_contact",
+                    toolCallId,
+                    result: id,
+                  },
+                ],
+              },
+            ],
+          });
+
+          return (
+            <BotCard>
+              <ContactCard id={id} />
+            </BotCard>
+          );
+        },
+      },
       list_partners: {
         description: `List partners based on the given ids`,
         parameters: z.object({
           ids: z.array(z.string()),
         }),
-        generate: async function* ({ ids }) {
+        generate: async function*({ ids }) {
           yield (
             <BotCard>
               <ListPartnersSkeleton />
@@ -207,7 +313,7 @@ async function submitUserMessage(content: string) {
                 content: [
                   {
                     type: "tool-call",
-                    toolName: "showPartner",
+                    toolName: "list_partners",
                     toolCallId,
                     args: { ids },
                   },
@@ -219,7 +325,7 @@ async function submitUserMessage(content: string) {
                 content: [
                   {
                     type: "tool-result",
-                    toolName: "listStocks",
+                    toolName: "list_partners",
                     toolCallId,
                     result: ids,
                   },
@@ -240,7 +346,7 @@ async function submitUserMessage(content: string) {
         parameters: z.object({
           id: z.string(),
         }),
-        generate: async function* ({ id }) {
+        generate: async function*({ id }) {
           yield (
             <BotCard>
               <PartnerPageSkeleton />
@@ -373,6 +479,16 @@ export const getUIStateFromAIState = (aiState: Chat) => {
                 {/* TODO: Infer types based on the tool result*/}
                 {/* @ts-expect-error - haven't added type infer */}
                 <PartnerPage id={tool.result} />
+              </BotCard>
+            ) : tool.toolName === "list_contacts" ? (
+              <BotCard>
+                {/* @ts-expect-error - haven't added type infer */}
+                <ListContacts ids={tool.result} />
+              </BotCard>
+            ) : tool.toolName === "show_contact" ? (
+              <BotCard>
+                {/* @ts-expect-error - haven't added type infer */}
+                <ContactCard id={tool.result} />
               </BotCard>
             ) : tool.toolName === "list_partners" ? (
               <BotCard>

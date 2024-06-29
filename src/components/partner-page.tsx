@@ -78,7 +78,7 @@ export async function PartnerPage(props: { id: string }) {
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <Avatar>
-                              <AvatarImage src="/placeholder-user.jpg" />
+                              <AvatarImage src={contact.image} />
                               <AvatarFallback>{initials}</AvatarFallback>
                             </Avatar>
                             <div>

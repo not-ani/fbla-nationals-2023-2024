@@ -6,6 +6,10 @@ import { SidebarMobile } from "./sidebar-mobile";
 import { SidebarToggle } from "@/components/chat/sidebar-toggle";
 import { ChatHistory } from "./ChatHistory";
 import BackButton from "@/app/(docs)/docs/_components/BackButton";
+import { HomeIcon } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import Link from "next/link";
 
 async function UserOrLogin() {
   return (
@@ -18,7 +22,25 @@ async function UserOrLogin() {
       </>
       <div className="flex items-center">
         <IconSeparator className="size-6 text-muted-foreground/50" />
-        <UserMenu />
+        <div className="flex flex-row items-center">
+          <Tooltip>
+            <TooltipTrigger>
+              <Link
+                href="/"
+                className={
+                  buttonVariants({
+                    variant: "ghost"
+                  })
+                }
+              >
+                <HomeIcon />
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              Go Home
+            </TooltipContent>
+          </Tooltip>
+        </div>
       </div>
     </>
   );
@@ -33,7 +55,9 @@ export function Header() {
         </React.Suspense>
       </div>
       <div className="flex items-center justify-end space-x-2">
-        <BackButton />
+        <React.Suspense fallback={<div className="flex-1 overflow-auto" />}>
+          <UserMenu />
+        </React.Suspense>
       </div>
     </header>
   );

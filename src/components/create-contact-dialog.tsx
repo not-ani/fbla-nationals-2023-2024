@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import Image from "next/image"
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -25,21 +26,26 @@ import { type z } from "zod";
 import { Switch } from "./ui/switch";
 import { createContactSchema } from "@/server/db/schema";
 import { PhoneInput } from "./ui/phone-input";
+import { FileUpload } from "./file-upload";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
+import { showErrorToast } from "@/lib/handle-error";
+import { Card, CardContent } from "./ui/card";
 
 const schema = createContactSchema.omit({
   id: true,
+  image: true,
 });
 
 export const CreateContactDialog = (props: { partnerId: string }) => {
+  const [imageUrl, setImageUrl] = useState<string>("")
   const { partnerId } = props;
 
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      id: "",
       name: "",
       phone: "+12312313333",
-      image: "/placeholder.png",
       email: "",
       jobTitle: "",
       isPrimary: false,
@@ -50,11 +56,24 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
     },
   });
 
+  const { mutate: create } = api.contacts.create.useMutation({
+    onSuccess: () => {
+      toast.success("Contact created successfully")
+      setImageUrl("")
+      form.reset()
+    },
+    onError: (error) => {
+      showErrorToast(error)
+    }
+  })
+
   const isValid = form.formState.isValid;
 
   function onSubmit(data: z.infer<typeof schema>) {
-    // Replace with your actual submission logic
-    console.log("Form Submitted", data);
+    create({
+      ...data,
+      image: imageUrl
+    })
   }
 
   return (
@@ -65,7 +84,7 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
             Add Contact
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="flex flex-col">
           <DialogHeader>
             <DialogTitle>Create a new contact</DialogTitle>
           </DialogHeader>
@@ -111,22 +130,6 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
               />
               <FormField
                 control={form.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Image URL</FormLabel>
-                    <FormControl>
-                      <Input placeholder="/placeholder.png" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    <FormDescription>
-                      The image URL of the contact
-                    </FormDescription>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
@@ -155,25 +158,48 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="isPrimary"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Primary Contact</FormLabel>
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                    <FormDescription>
-                      Is this the primary contact?
-                    </FormDescription>
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-row gap-6">
+                <FormField
+                  control={form.control}
+                  name="isPrimary"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col items-start gap-1">
+                      <FormLabel>Primary Contact</FormLabel>
+                      <FormControl >
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                      <FormDescription>
+                        Is this the primary contact?
+                      </FormDescription>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="w-full pb-10">
+                <FileUpload
+                  onChange={
+                    (e) => {
+                      if (e) {
+                        setImageUrl(e)
+                      }
+                    }}
+                  endpoint="courseImage"
+                />
+                {
+                  imageUrl !== "" && (
+                    <Card>
+                      <CardContent>
+                        <Image width={600} height={300} alt="nono" src={imageUrl} />
+                      </CardContent>
+                    </Card>
+                  )
+                }
+              </div>
               <FormField
                 control={form.control}
                 name="notes"
@@ -193,7 +219,7 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
                   </FormItem>
                 )}
               />
-              <Button disabled={!isValid} type="submit">
+              <Button disabled={!isValid && (imageUrl !== "")} type="submit">
                 Save
               </Button>
             </form>
