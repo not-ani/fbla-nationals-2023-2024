@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 
@@ -14,4 +14,4 @@ const ChatButton = () => {
   );
 };
 
-export default ChatButton;
+export default memo(ChatButton);

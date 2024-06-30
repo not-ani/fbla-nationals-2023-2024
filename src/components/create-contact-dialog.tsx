@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -38,7 +38,7 @@ const schema = createContactSchema.omit({
   image: true,
 });
 
-export const CreateContactDialog = (props: { partnerId: string }) => {
+const CreateContactDialog = (props: { partnerId: string }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const { partnerId } = props;
 
@@ -234,3 +234,5 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
     </div>
   );
 };
+
+export default memo(CreateContactDialog);

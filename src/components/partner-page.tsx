@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BuildingIcon, PencilIcon } from "lucide-react";
-import { CreateContactDialog } from "./create-contact-dialog";
+import CreateContactDialog from "./create-contact-dialog";
 import { InteractionHistoryWithoutFetch } from "./interaction-history";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
