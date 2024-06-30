@@ -41,7 +41,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         {isGoogleLoading ? (
           <ReloadIcon className="size-3.5 animate-spin" aria-hidden="true" />
         ) : (
-          <Google className="mr-2 h-4 w-4" />
+          <Google className="h-4 w-4 pr-2" />
         )}
         {"   "} Google
       </button>
