@@ -31,6 +31,7 @@ export const users = pgTable("user", {
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
+  interactions: many(interactions),
 }));
 
 export const accounts = pgTable(
@@ -112,15 +113,37 @@ export const statusEnum = pgEnum(`status`, [
 
 export const orgTypeEnum = pgEnum(`org_type`, [
   "Sole Proprietorship",
-  "NPO",
   "Partnership",
   "Corporate",
   "Limited Liability Company (LLC)",
   "Cooperative",
+  "NPO",
   "S Corporation",
   "Government",
   "Educational",
 ]);
+
+export const interactions = pgTable("interaction", {
+  id: text("id")
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => createId()),
+  userId: text("user_id"),
+  partnerId: text("partnerId"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").default(sql`current_timestamp`),
+});
+
+export const interactionsRelations = relations(interactions, ({ one }) => ({
+  partner: one(partners, {
+    fields: [interactions.partnerId],
+    references: [partners.id],
+  }),
+  user: one(users, {
+    fields: [interactions.userId],
+    references: [users.id],
+  }),
+}));
 
 export const partners = pgTable("partners", {
   id: text("id")
@@ -141,6 +164,7 @@ export const partners = pgTable("partners", {
 
 export const partnerRelations = relations(partners, ({ many }) => ({
   contacts: many(contacts),
+  interactions: many(interactions),
 }));
 
 export const contacts = pgTable("contacts", {

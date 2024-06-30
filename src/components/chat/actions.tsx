@@ -36,6 +36,7 @@ import { ContactCardSkeleton } from "../skeleton/contact-card-skeleton";
 import { ListContactSkeleton } from "../skeleton/list-contact-skeleton";
 import { ListContacts } from "../list-contacts";
 import PartnerCount from "../PartnerCount";
+import InteractionHistory from "../interaction-history";
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   "use server";
@@ -146,6 +147,7 @@ async function submitUserMessage(content: string) {
     If the user asks to create a partner, call \`create_partner\` to show the form to create a partner.
     If the user asks to update a partner, call \`show_partner\` to show the form to update a partner.
     If the user asks to delete a partner, call \`delete_partner\` to show the form to delete a partner.
+    If the user asks to see the interaction history of a partner, call \`interaction_history\` to show the interaction history.
 
     If the user asks to see a contact, call \`show_contact\` to show the contact.
     If the user asks to create a contact, call \`create_contact\` to show the form to create a contact.
@@ -190,6 +192,57 @@ async function submitUserMessage(content: string) {
       return textNode;
     },
     tools: {
+      interaction_history: {
+        description: `The interaction history for a given database`,
+        parameters: z.object({
+          partnerId: z.string(),
+        }),
+        generate: async function* ({ partnerId }) {
+          yield (
+            <BotCard>
+              <PartnerPageSkeleton />
+            </BotCard>
+          );
+          const toolCallId = nanoid();
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: "assistant",
+                content: [
+                  {
+                    type: "tool-call",
+                    toolName: "interaction_history",
+                    toolCallId,
+                    args: { partnerId },
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: "tool",
+                content: [
+                  {
+                    type: "tool-result",
+                    toolName: "interaction_history",
+                    toolCallId,
+                    result: partnerId,
+                  },
+                ],
+              },
+            ],
+          });
+
+          return (
+            <BotCard>
+              <InteractionHistory partnerId={partnerId} />
+            </BotCard>
+          );
+        },
+      },
       db_count: {
         description: `The number of partners in the database`,
         parameters: z.object({

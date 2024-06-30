@@ -17,6 +17,25 @@ export const partnersRouter = createTRPCRouter({
         where: (partners, { eq }) => eq(partners.id, input.id),
         with: {
           contacts: true,
+          interactions: {
+            columns: {
+              id: true,
+              createdAt: true,
+            },
+            with: {
+              user: {
+                columns: {
+                  name: true,
+                  image: true,
+                },
+              },
+              partner: {
+                columns: {
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
       return partner;
