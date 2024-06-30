@@ -33,8 +33,9 @@ import { ListPartners } from "../list-partners";
 import { ListPartnersSkeleton } from "../skeleton/list-partners-skeleton";
 import ContactCard from "../contact-card";
 import { ContactCardSkeleton } from "../skeleton/contact-card-skeleton";
-import { ListContactSkeleton, ListContactSkeletonColumn } from "../skeleton/list-contact-skeleton";
+import { ListContactSkeleton } from "../skeleton/list-contact-skeleton";
 import { ListContacts } from "../list-contacts";
+import PartnerCount from "../PartnerCount";
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   "use server";
@@ -89,8 +90,9 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
         {
           id: nanoid(),
           role: "system",
-          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${amount * price
-            }]`,
+          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
+            amount * price
+          }]`,
         },
       ],
     });
@@ -138,6 +140,7 @@ async function submitUserMessage(content: string) {
     - "[Partner Id = xyzId]" means that an interface of the of a partner with the xyzId is shown to the user.
     - "[User has changed the partners name to xyz]" means that the user has changed the name of a partner to xyz.
     
+    If the user about the number of partners we have in the database, call \`db_count\` to show the number of partners.
     If the user requests seeing a single partner, asks for something which's result would be a single partner, call \`show_partner\` to show the partner.
     If the user asks for something and multiple partners fit that description, call \`list_partners\` to show a list of partners.
     If the user asks to create a partner, call \`create_partner\` to show the form to create a partner.
@@ -187,12 +190,63 @@ async function submitUserMessage(content: string) {
       return textNode;
     },
     tools: {
+      db_count: {
+        description: `The number of partners in the database`,
+        parameters: z.object({
+          nothing: z.string().optional(),
+        }),
+        generate: async function* ({ nothing }) {
+          yield (
+            <BotCard>
+              <div />
+            </BotCard>
+          );
+          const toolCallId = nanoid();
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: "assistant",
+                content: [
+                  {
+                    type: "tool-call",
+                    toolName: "db_count",
+                    toolCallId,
+                    args: { nothing },
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: "tool",
+                content: [
+                  {
+                    type: "tool-result",
+                    toolName: "db_count",
+                    toolCallId,
+                    result: nothing,
+                  },
+                ],
+              },
+            ],
+          });
+
+          return (
+            <BotCard>
+              <PartnerCount nothing={nothing} />
+            </BotCard>
+          );
+        },
+      },
       list_contacts: {
         description: `Show a contact based on the given id`,
         parameters: z.object({
           ids: z.array(z.string()),
         }),
-        generate: async function*({ ids }) {
+        generate: async function* ({ ids }) {
           yield (
             <BotCard>
               <ListContactSkeleton />
@@ -242,9 +296,8 @@ async function submitUserMessage(content: string) {
         description: `Show a contact based on the given id`,
         parameters: z.object({
           id: z.string(),
-
         }),
-        generate: async function*({ id }) {
+        generate: async function* ({ id }) {
           yield (
             <BotCard>
               <ContactCardSkeleton />
@@ -295,7 +348,7 @@ async function submitUserMessage(content: string) {
         parameters: z.object({
           ids: z.array(z.string()),
         }),
-        generate: async function*({ ids }) {
+        generate: async function* ({ ids }) {
           yield (
             <BotCard>
               <ListPartnersSkeleton />
@@ -346,7 +399,7 @@ async function submitUserMessage(content: string) {
         parameters: z.object({
           id: z.string(),
         }),
-        generate: async function*({ id }) {
+        generate: async function* ({ id }) {
           yield (
             <BotCard>
               <PartnerPageSkeleton />
@@ -489,6 +542,11 @@ export const getUIStateFromAIState = (aiState: Chat) => {
               <BotCard>
                 {/* @ts-expect-error - haven't added type infer */}
                 <ContactCard id={tool.result} />
+              </BotCard>
+            ) : tool.toolName === "db_count" ? (
+              <BotCard>
+                {/* @ts-expect-error - haven't added type infer */}
+                <PartnerCount nothing={tool.result} />
               </BotCard>
             ) : tool.toolName === "list_partners" ? (
               <BotCard>

@@ -25,7 +25,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
     UPLOADTHING_SECRET: z.string(),
-    UPLOADTHING_APP_ID: z.string()
+    UPLOADTHING_APP_ID: z.string(),
   },
 
   /**

@@ -19,6 +19,7 @@ export async function createPartner(input: CreatePartnerSchema) {
     }
     await db.insert(partners).values({
       name: input.name,
+      email: input.email,
       status: input.status,
       orgType: input.orgType,
       availableResources: input.availableResources,

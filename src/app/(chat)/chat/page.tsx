@@ -16,3 +16,5 @@ export default async function Page() {
     </AI>
   );
 }
+
+export const dynamic = "force-dynamic";

@@ -54,7 +54,11 @@ export const ListContacts = async ({ ids }: { ids: string[] }) => {
                   <TableCell>{contact.email}</TableCell>
                   <TableCell>{contact.name}</TableCell>
                   <TableCell>{contact.phone}</TableCell>
-                  <TableCell>{contact.isPrimary === true ? "Primary Contact" : "Not Primary"}</TableCell>
+                  <TableCell>
+                    {contact.isPrimary === true
+                      ? "Primary Contact"
+                      : "Not Primary"}
+                  </TableCell>
                   <TableCell>{contact.jobTitle}</TableCell>
                 </TableRow>
               );
@@ -64,4 +68,4 @@ export const ListContacts = async ({ ids }: { ids: string[] }) => {
       </CardContent>
     </div>
   );
-}
+};

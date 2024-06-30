@@ -1,10 +1,9 @@
 import { getChats } from "@/server/chat/server-actions";
-import { cache } from "react";
 import { SidebarItems } from "./sidebar-items";
 
-const loadChats = cache(async () => {
+const loadChats = async () => {
   return await getChats();
-});
+};
 
 export async function SidebarList() {
   const chats = await loadChats();
@@ -13,7 +12,7 @@ export async function SidebarList() {
     <div className="flex flex-1 flex-col overflow-hidden">
       <div className="flex-1 overflow-auto">
         {chats?.length ? (
-          <div className="space-y-2 px-2">
+          <div className="h-min-[500px] h-full space-y-2 px-2">
             <SidebarItems chats={chats} />
           </div>
         ) : (

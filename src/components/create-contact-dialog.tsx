@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image"
+import Image from "next/image";
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -31,6 +31,7 @@ import { api } from "@/trpc/react";
 import { toast } from "sonner";
 import { showErrorToast } from "@/lib/handle-error";
 import { Card, CardContent } from "./ui/card";
+import { useRouter } from "next/navigation";
 
 const schema = createContactSchema.omit({
   id: true,
@@ -38,9 +39,10 @@ const schema = createContactSchema.omit({
 });
 
 export const CreateContactDialog = (props: { partnerId: string }) => {
-  const [imageUrl, setImageUrl] = useState<string>("")
+  const [imageUrl, setImageUrl] = useState<string>("");
   const { partnerId } = props;
 
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -58,22 +60,23 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
 
   const { mutate: create } = api.contacts.create.useMutation({
     onSuccess: () => {
-      toast.success("Contact created successfully")
-      setImageUrl("")
-      form.reset()
+      toast.success("Contact created successfully");
+      setImageUrl("");
+      router.refresh();
+      form.reset();
     },
     onError: (error) => {
-      showErrorToast(error)
-    }
-  })
+      showErrorToast(error);
+    },
+  });
 
   const isValid = form.formState.isValid;
 
   function onSubmit(data: z.infer<typeof schema>) {
     create({
       ...data,
-      image: imageUrl
-    })
+      image: imageUrl,
+    });
   }
 
   return (
@@ -165,7 +168,7 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
                   render={({ field }) => (
                     <FormItem className="flex flex-col items-start gap-1">
                       <FormLabel>Primary Contact</FormLabel>
-                      <FormControl >
+                      <FormControl>
                         <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}
@@ -182,23 +185,25 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
 
               <div className="w-full pb-10">
                 <FileUpload
-                  onChange={
-                    (e) => {
-                      if (e) {
-                        setImageUrl(e)
-                      }
-                    }}
+                  onChange={(e) => {
+                    if (e) {
+                      setImageUrl(e);
+                    }
+                  }}
                   endpoint="courseImage"
                 />
-                {
-                  imageUrl !== "" && (
-                    <Card>
-                      <CardContent>
-                        <Image width={600} height={300} alt="nono" src={imageUrl} />
-                      </CardContent>
-                    </Card>
-                  )
-                }
+                {imageUrl !== "" && (
+                  <Card>
+                    <CardContent>
+                      <Image
+                        width={600}
+                        height={300}
+                        alt="nono"
+                        src={imageUrl}
+                      />
+                    </CardContent>
+                  </Card>
+                )}
               </div>
               <FormField
                 control={form.control}
@@ -219,7 +224,7 @@ export const CreateContactDialog = (props: { partnerId: string }) => {
                   </FormItem>
                 )}
               />
-              <Button disabled={!isValid && (imageUrl !== "")} type="submit">
+              <Button disabled={!isValid && imageUrl !== ""} type="submit">
                 Save
               </Button>
             </form>

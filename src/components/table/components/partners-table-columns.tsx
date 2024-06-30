@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import { partners, type Partner } from "@/server/db/schema";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";

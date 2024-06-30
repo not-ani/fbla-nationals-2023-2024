@@ -5,10 +5,13 @@ import { UserMenu } from "@/components/user-menu";
 import { SidebarMobile } from "./sidebar-mobile";
 import { SidebarToggle } from "@/components/chat/sidebar-toggle";
 import { ChatHistory } from "./ChatHistory";
-import BackButton from "@/app/(docs)/docs/_components/BackButton";
 import { HomeIcon } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Link from "next/link";
 
 async function UserOrLogin() {
@@ -27,18 +30,14 @@ async function UserOrLogin() {
             <TooltipTrigger>
               <Link
                 href="/"
-                className={
-                  buttonVariants({
-                    variant: "ghost"
-                  })
-                }
+                className={buttonVariants({
+                  variant: "ghost",
+                })}
               >
                 <HomeIcon />
               </Link>
             </TooltipTrigger>
-            <TooltipContent>
-              Go Home
-            </TooltipContent>
+            <TooltipContent>Go Home</TooltipContent>
           </Tooltip>
         </div>
       </div>

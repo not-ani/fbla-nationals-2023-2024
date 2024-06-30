@@ -112,11 +112,11 @@ export const statusEnum = pgEnum(`status`, [
 
 export const orgTypeEnum = pgEnum(`org_type`, [
   "Sole Proprietorship",
+  "NPO",
   "Partnership",
   "Corporate",
   "Limited Liability Company (LLC)",
   "Cooperative",
-  "NPO",
   "S Corporation",
   "Government",
   "Educational",

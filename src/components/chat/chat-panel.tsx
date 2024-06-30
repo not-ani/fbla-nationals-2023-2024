@@ -32,6 +32,11 @@ export function ChatPanel({
       subheading: `Good food!`,
       message: `I need to plan a banquet for my students to celebrate the end of the year, which partners should I contact? List only relevent partners.`,
     },
+    {
+      heading: "Number of partners?",
+      subheading: "What about partners?",
+      message: `What are the number of partners in the database?`,
+    },
   ];
 
   return (
