@@ -1,8 +1,10 @@
-# T3 Stack Project: Partner Management System
+
+
+#Partner Management System
 
 ## Overview
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`. It's designed as a Partner Management System, allowing users to manage and track business and community partners efficiently.
+It's designed as a Partner Management System, allowing schools to manage and track business and community partners efficiently. It was used to secure 8th Place Internationally at the FBLA 2024 NLC in the event coding and programming.
 
 ## Technologies Used
 
@@ -27,12 +29,12 @@ This project leverages the power of the T3 Stack, which includes:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone https://github.com/your-username/fbla-nationals-2023-2024.git
    ```
 
 2. Install dependencies:
    ```
-   cd your-repo-name
+   cd fbla-nationals-2023-2024
    npm install
    ```
 
@@ -46,7 +48,7 @@ This project leverages the power of the T3 Stack, which includes:
 
 5. Run the development server:
    ```
-   npm run dev
+   pnpm run dev
    ```
 
 6. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
